@@ -144,7 +144,7 @@ def dsa_stream_dados():
             continue
 
 # Define a DAG do Airflow
-with DAG("dsa-real-time-etl-stack",
+with DAG("teste",
          # Define os argumentos padrão da DAG
          default_args=default_args,
          # Define o agendamento da DAG como uma vez por dia
@@ -153,7 +153,7 @@ with DAG("dsa-real-time-etl-stack",
          catchup=False,
 ) as dag:
     # Define a tarefa que faz o streaming de dados
-    streaming_task = PythonOperator(task_id="dsa_stream_from_api", 
+    streaming_task = PythonOperator(task_id="teste", 
                                     python_callable=dsa_stream_dados)
 
 
