@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
 import pendulum
 import sys
+import os
 sys.path.append('/opt/airflow/dags')
 
 default_args = {
@@ -21,6 +22,10 @@ with airflow.DAG('dag_teste_maxinutri',
         application="api_teste_maxinutri.py",
         #Forçar o Spark standalone
         conf={"spark.master": "spark://spark-master:7077"},
+        env_vars={
+        "JAVA_HOME": "/usr/lib/jvm/java-11-openjdk-amd64",
+        "PATH": f"/usr/lib/jvm/java-11-openjdk-amd64/bin:{os.environ.get('PATH', '')}"
+    }
     )
 
     
