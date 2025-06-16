@@ -12,20 +12,18 @@ default_args = {
 with DAG(
     dag_id='dag_teste_maxinutri',
     default_args=default_args,
-    schedule_interval=None,  # ou algo como '0 12 * * *' para agendar diariamente ao meio-dia
+    schedule_interval=None,
     catchup=False,
     tags=['spark', 'maxinutri']
 ) as dag:
 
     spark_task = SparkSubmitOperator(
         task_id='submit_spark_job',
-        application='/opt/airflow/dags/api_teste_maxinutri.py',  # caminho dentro do container
+        application='/opt/airflow/dags/api_teste_maxinutri.py',
         name='arrow-spark',
         conn_id='spark_default',
         verbose=True,
-        master='spark://spark-master:7077',
-        application_args=[],  # se precisar passar argumentos, adicione aqui
-        dag=dag,
+        # não coloque master aqui!
     )
 
     spark_task
