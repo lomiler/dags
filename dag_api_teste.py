@@ -1,6 +1,6 @@
 import airflow
 from datetime import datetime, timedelta
-from airflow.contrib.operators.spark_submit_operator import SparkSubmitOperator
+from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
 import pendulum
 import sys
 sys.path.append('/opt/airflow/dags')
@@ -18,7 +18,9 @@ with airflow.DAG('dag_teste_maxinutri',
     # Scripts
     dag_teste_maxinutri = SparkSubmitOperator(
         task_id='dag_teste_maxinutri',  
-        application="api_teste_maxinutri.py"
+        application="api_teste_maxinutri.py",
+        #Forçar o Spark standalone
+        conf={"spark.master": "spark://spark-master:7077"},
     )
 
     
