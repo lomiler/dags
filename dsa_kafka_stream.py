@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 
 # Importa as classes principais do Airflow para criar DAGs
 from airflow import DAG
-##
+
 # Importa o operador Python do Airflow para execução de funções Python como tarefas
 from airflow.operators.python import PythonOperator
 
