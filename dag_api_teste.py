@@ -1,33 +1,31 @@
-import airflow
-from datetime import datetime, timedelta
+from airflow import DAG
 from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
-import pendulum
-import sys
-import os
-sys.path.append('/opt/airflow/dags')
+from datetime import datetime
 
 default_args = {
-    'owner': 'Jonas Lomiler',
-    'start_date': pendulum.datetime(2025, 6, 16, tz='America/Sao_Paulo'),
+    'owner': 'airflow',
+    'start_date': datetime(2025, 6, 1),
+    'depends_on_past': False,
+    'retries': 1,
 }
 
-with airflow.DAG('dag_teste_maxinutri',
-                  default_args=default_args,
-                  schedule_interval='20 00 * * *',
-                  catchup=False,
-                  tags=['API','DESENV']) as dag:    
-    # Scripts
-    dag_teste_maxinutri = SparkSubmitOperator(
-        task_id='dag_teste_maxinutri',  
-        application="api_teste_maxinutri.py",
-        #Forçar o Spark standalone
-        conf={"spark.master": "spark://spark-master:7077"},
-        env_vars={
-        "JAVA_HOME": "/usr/lib/jvm/java-11-openjdk-amd64",
-        "PATH": f"/usr/lib/jvm/java-11-openjdk-amd64/bin:{os.environ.get('PATH', '')}"
-    }
+with DAG(
+    dag_id='dag_teste_maxinutri',
+    default_args=default_args,
+    schedule_interval=None,  # ou algo como '0 12 * * *' para agendar diariamente ao meio-dia
+    catchup=False,
+    tags=['spark', 'maxinutri']
+) as dag:
+
+    spark_task = SparkSubmitOperator(
+        task_id='submit_spark_job',
+        application='/opt/airflow/dags/api_teste_maxinutri.py',  # caminho dentro do container
+        name='arrow-spark',
+        conn_id='spark_default',
+        verbose=True,
+        master='spark://spark-master:7077',
+        application_args=[],  # se precisar passar argumentos, adicione aqui
+        dag=dag,
     )
 
-    
-    # Setting the execution order
-    dag_teste_maxinutri 
+    spark_task
