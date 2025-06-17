@@ -6,7 +6,7 @@ default_args = {
     'owner': 'airflow',
     'start_date': datetime(2025, 6, 1),
     'depends_on_past': False,
-    'retries': 1,
+    #'retries': 1,
 }
 
 with DAG(
