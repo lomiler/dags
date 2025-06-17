@@ -6,7 +6,7 @@ default_args = {
     'owner': 'airflow',
     'start_date': datetime(2025, 6, 1),
     'depends_on_past': False,
-    #'retries': 1,
+    'retries': 1,
 }
 
 with DAG(
@@ -22,7 +22,6 @@ with DAG(
         application='/opt/airflow/dags/api_teste_maxinutri.py',
         name='arrow-spark',
         verbose=True,
-        master='spark://spark-master:7077',
     )
 
     spark_task
