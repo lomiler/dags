@@ -21,9 +21,8 @@ with DAG(
         task_id='submit_spark_job',
         application='/opt/airflow/dags/api_teste_maxinutri.py',
         name='arrow-spark',
-        conn_id='spark_default',
         verbose=True,
-        # não coloque master aqui!
+        master='spark://spark-master:7077',
     )
 
     spark_task
