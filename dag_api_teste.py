@@ -17,11 +17,11 @@ with DAG(
     tags=['spark', 'maxinutri']
 ) as dag:
 
-    spark_task = SparkSubmitOperator(
-        task_id='submit_spark_job',
+    dag_teste_maxinutri = SparkSubmitOperator(
+        task_id='dag_teste_maxinutri',
         application='/opt/airflow/dags/api_teste_maxinutri.py',
         name='arrow-spark',
         verbose=True,
     )
 
-    spark_task
+    dag_teste_maxinutri

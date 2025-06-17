@@ -90,3 +90,8 @@ df = spark.createDataFrame(collected_data, schema=schema)
 
 # Exibe as primeiras 5 linhas
 df.show(5, truncate=False)
+
+# Conta o número total de linhas do DataFrame
+total_linhas = df.count()
+
+print(f"Total de linhas no DataFrame: {total_linhas}")
